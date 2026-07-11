@@ -18,15 +18,15 @@ Technologies Used
 
 Installation
 
-git clone <repository-url>
-cd Sanx-Assistant
-pip install -r requirements.txt
+-git clone <repository-url>
+-cd Sanx-Assistant
+-pip install -r requirements.txt
 
 Usage
 
-python main.py
+-python main.py
 
-Project Roadmap
+-Project Roadmap
 
 Version 1.0
 
@@ -48,8 +48,8 @@ Future Enhancements
 
 Author
 
-Santhosh Murugesan
+-Santhosh Murugesan
 
 License
 
-This project is for learning, experimentation, and portfolio development.
+-This project is for learning, experimentation, and portfolio development.
