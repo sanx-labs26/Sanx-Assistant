@@ -20,7 +20,9 @@ Technologies Used
 Installation
 
 git clone <repository-url>
+
 cd Sanx-Assistant
+
 pip install -r requirements.txt
 
 
