@@ -19,16 +19,16 @@ Technologies Used
 
 Installation
 
-git clone <repository-url>
+-git clone <repository-url>
 
-cd Sanx-Assistant
+-cd Sanx-Assistant
 
-pip install -r requirements.txt
+-pip install -r requirements.txt
 
 
 Usage
 
-python main.py
+-python main.py
 
 
 Project Roadmap
