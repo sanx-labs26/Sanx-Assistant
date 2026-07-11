@@ -1,0 +1,4 @@
+livekit-agents
+livekit-agents[silero,google]~=1.5
+livekit-plugins-ai-coustics
+python-dotenv
