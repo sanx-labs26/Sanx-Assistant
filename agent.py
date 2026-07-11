@@ -1,5 +1,9 @@
 from dotenv import load_dotenv
 
+from database import (
+    init_db,
+    save_preferences,
+)
 from livekit import agents
 from livekit.agents import AgentServer, AgentSession, Agent, room_io
 from livekit.plugins import (
@@ -8,6 +12,9 @@ from livekit.plugins import (
 )
 
 load_dotenv()
+
+init_db()
+save_preferences("Sanx", "bunk")
 
 
 class SanxAssistant(Agent):
