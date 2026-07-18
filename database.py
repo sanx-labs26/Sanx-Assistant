@@ -5,101 +5,134 @@ DB_NAME = "sanx.db"
 
 
 def create_conversation_table():
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS conversations (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_message TEXT,
-        assistant_response TEXT,
-        created_at TEXT
-    )
-    """)
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS conversations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_message TEXT,
+            assistant_response TEXT,
+            created_at TEXT
+        )
+        """)
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+
+    except Exception as e:
+        print(f"Database Error: {e}")
+
+    finally:
+        conn.close()
 
 
 def create_preferences_table():
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS preferences (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT,
-        voice TEXT
-    )
-    """)
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS preferences (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT,
+            voice TEXT
+        )
+        """)
 
-    conn.commit()
-    conn.close()
+        conn.commit()
 
-def init_db():
-    create_conversation_table()
-    create_preferences_table()
+    except Exception as e:
+        print(f"Database Error: {e}")
+
+    finally:
+        conn.close()
+
 
 def save_preferences(username, voice):
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    INSERT INTO preferences (username, voice)
-    VALUES (?, ?)
-    """, (username, voice))
+        cursor.execute("""
+        INSERT INTO preferences (username, voice)
+        VALUES (?, ?)
+        """, (username, voice))
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+
+    except Exception as e:
+        print(f"Database Error: {e}")
+
+    finally:
+        conn.close()
 
 
 def get_preferences():
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    SELECT username, voice
-    FROM preferences
-    """)
+        cursor.execute("""
+        SELECT username, voice
+        FROM preferences
+        """)
 
-    result = cursor.fetchall()
+        result = cursor.fetchall()
+        return result
 
-    conn.close()
-    return result
+    except Exception as e:
+        print(f"Database Error: {e}")
+        return []
+
+    finally:
+        conn.close()
 
 
 def save_conversation(user_message, assistant_response):
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    INSERT INTO conversations
-    (user_message, assistant_response, created_at)
-    VALUES (?, ?, ?)
-    """, (
-        user_message,
-        assistant_response,
-        datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    ))
+        cursor.execute("""
+        INSERT INTO conversations
+        (user_message, assistant_response, created_at)
+        VALUES (?, ?, ?)
+        """, (
+            user_message,
+            assistant_response,
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        ))
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+
+    except Exception as e:
+        print(f"Database Error: {e}")
+
+    finally:
+        conn.close()
 
 
 def get_recent_conversations(limit=10):
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    SELECT user_message,
-           assistant_response,
-           created_at
-    FROM conversations
-    ORDER BY id DESC
-    LIMIT ?
-    """, (limit,))
+        cursor.execute("""
+        SELECT user_message,
+               assistant_response,
+               created_at
+        FROM conversations
+        ORDER BY id DESC
+        LIMIT ?
+        """, (limit,))
 
-    data = cursor.fetchall()
+        data = cursor.fetchall()
+        return data
 
-    conn.close()
-    return data
+    except Exception as e:
+        print(f"Database Error: {e}")
+        return []
+
+    finally:
+        conn.close()
