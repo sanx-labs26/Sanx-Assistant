@@ -12,6 +12,8 @@ from livekit.plugins import (
 )
 
 load_dotenv()
+import os
+print (os.getenv("GOOGLE_API_KEY"))
 
 init_db()
 save_preferences("Sanx", "bunk")

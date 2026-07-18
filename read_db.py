@@ -1,3 +1,9 @@
-from database import get_preferences
+from database import get_recent_conversations
 
-print(get_preferences())
+rows = get_recent_conversations()
+
+for row in rows:
+    print(f"User: {row[0]}")
+    print(f"Assistant: {row[1]}")
+    print(f"Time: {row[2]}")
+    print("-" * 40)
