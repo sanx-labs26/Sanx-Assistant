@@ -3,12 +3,22 @@ from dotenv import load_dotenv
 from database import (
     init_db,
     save_preferences,
+    create_progress_table,
 )
 from livekit import agents
 from livekit.agents import AgentServer, AgentSession, Agent, room_io
 from livekit.plugins import (
     google,
     ai_coustics,
+)
+
+from study import study_mode
+from quiz import get_quiz
+from placement import interview_mode
+from progress import (
+    create_progress_table,
+    save_progress,
+    get_progress
 )
 
 load_dotenv()
@@ -70,6 +80,52 @@ When the conversation begins, introduce yourself as:
 "Hello, Sanx. I am Sanx Assistant, your personal AI assistant. How may I assist you today?"
 """
     )   
+    
+def process_command(command):
+
+    command = command.lower()
+
+    if command.startswith("study "):
+        topic = command.replace("study ", "")
+        return study_mode(topic)
+
+    elif command.startswith("quiz "):
+        subject = command.replace("quiz ", "")
+        quiz = get_quiz(subject)
+
+        return f"""
+Question:
+{quiz['question']}
+
+(Answer: {quiz['answer']})
+"""
+
+    elif command.startswith("interview "):
+        category = command.replace("interview ", "")
+        return interview_mode(category)
+
+    elif command == "progress":
+
+        rows = get_progress()
+
+        if not rows:
+            return "No study progress found."
+
+        result = "Study Progress\n\n"
+
+        for row in rows:
+
+            result += (
+                f"Topic: {row[0]}\n"
+                f"Status: {row[1]}\n"
+                f"Score: {row[2]}/10\n"
+                f"Date: {row[3]}\n\n"
+            )
+
+        return result
+
+    else:
+        return None       
 
 
 server = AgentServer()
