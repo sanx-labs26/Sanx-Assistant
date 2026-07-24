@@ -1,177 +1,188 @@
 # 🤖 SanX Assistant
 
-An AI-powered desktop assistant built with Python that provides intelligent conversations, remembers user interactions using SQLite, and is designed with a modular architecture for future expansion.
+An AI-powered desktop assistant built with Python that provides intelligent conversations, remembers user interactions using SQLite, and helps students learn through AI-powered study tools.
 
 ---
 
-## 📖 Overview
+# 📖 Overview
 
-SanX Assistant is a personal AI assistant that combines conversational AI with persistent memory. It stores conversation history and user preferences in a SQLite database, allowing the assistant to remember information across sessions.
+SanX Assistant is a personal AI assistant developed using Python and AI technologies. It combines conversational AI, persistent memory, and educational features to create an intelligent learning companion.
 
-This project demonstrates Python programming, database integration, Git/GitHub workflow, and software engineering best practices.
-
----
-
-## ✨ Features
-
-- 💬 AI-powered conversational assistant
-- 🧠 SQLite-based memory storage
-- 📝 Stores conversation history
-- ⚙️ User preference management
-- 🗄️ Persistent database using SQLite
-- 🛡️ Robust error handling with `try-except`
-- 📂 Modular Python project structure
-- 🔄 Easy to extend with new features
+The assistant stores conversation history and user preferences in SQLite, enabling personalized interactions across sessions.
 
 ---
 
-## 📅 Week 3 Progress
+# ✨ Features
 
-During Week 3, the following features were completed:
+## 🤖 AI Assistant
+- AI-powered conversations
+- Personalized responses
+- Memory across sessions
 
-- ✅ SQLite database integration
-- ✅ Memory storage implementation
-- ✅ Conversation history management
-- ✅ User preferences storage
-- ✅ Database read and write operations
-- ✅ Error handling improvements
-- ✅ Git and GitHub integration
-- ✅ Project structure organization
+## 🧠 Memory System
+- SQLite database
+- Conversation history
+- User preferences
+- Persistent storage
+
+## 📚 Study Features
+- Study Mode
+- Quiz Mode
+- Placement Interview Mode
+- Progress Tracker
+
+## ⚙️ Core Features
+- Modular architecture
+- Error handling
+- Database management
+- Easy feature expansion
 
 ---
 
-## 🛠️ Technologies Used
+# 📅 Project Progress
 
-- Python 3
+## ✅ Week 1
+- Project setup
+- Environment configuration
+- GitHub repository
+- Basic assistant
+
+## ✅ Week 2
+- SQLite integration
+- Memory system
+- Preferences management
+
+## ✅ Week 3
+- Database improvements
+- Conversation history
+- Error handling
+- Project organization
+
+## ✅ Week 4
+- AI Agent Integration
+- Study Mode
+- Quiz Mode
+- Placement Interview Mode
+- Progress Tracker
+- Improved AI workflow
+
+---
+
+# 🛠️ Technologies Used
+
+- Python
 - SQLite
+- Google AI / Gemini API
+- LiveKit
 - Git
 - GitHub
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```
 SanX Assistant/
+│── agent.py
 │── database.py
-│── read_db.py
+│── test_db.py
 │── sanx.db
-│── README.md
 │── requirements.txt
+│── README.md
+│── .env
 ```
 
 ---
 
-## 🗄️ Database
+# 🗄️ Database
 
-The assistant uses **SQLite** (`sanx.db`) for persistent storage.
+### conversations
+Stores
 
-### Tables
+- User messages
+- AI responses
+- Conversation history
 
-**conversations**
-- Stores chat history
-- Saves user messages
-- Saves assistant responses
+### preferences
+Stores
 
-**preferences**
-- Stores user preferences
-- Maintains personalized settings
-
----
-
-## 🛡️ Error Handling
-
-The application includes:
-
-- Database connection error handling
-- Safe database operations
-- Exception handling using `try-except`
-- Input validation
-- Graceful failure handling
+- User preferences
+- Personalized settings
 
 ---
 
-## 🚀 Installation
-
-### Clone the repository
+# 🚀 Installation
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/SanX-Assistant.git
-```
 
-### Move into the project directory
-
-```bash
 cd SanX-Assistant
-```
 
-### Install dependencies
-
-```bash
 pip install -r requirements.txt
-```
 
-### Run the application
-
-```bash
-python main.py
-```
-
-> Replace `main.py` with your project's actual entry file if it has a different name.
-
----
-
-## 📸 Screenshots
-
-Add screenshots of your application here.
-
-Example:
-
-```
-images/home.png
-images/chat.png
+python agent.py
 ```
 
 ---
 
-## 🔮 Future Enhancements
+# 📸 Screenshots
 
-- Voice commands
+Coming Soon
+
+---
+
+# 🔮 Roadmap
+
+## Week 5
+- Advanced Memory
+- AI Improvements
+- Better Context Handling
+
+## Week 6
+- Voice Commands
 - Text-to-Speech
 - Speech Recognition
-- Wake-word detection
-- GUI interface
-- Cloud database support
-- Web search integration
-- Calendar and reminder support
+
+## Week 7
+- Web Search
+- Calendar
+- Reminder System
+
+## Week 8
+- GUI Interface
+- Final Testing
+- Deployment
 
 ---
 
-## 🤝 Contributing
+# 🤝 Contributing
 
 Contributions are welcome.
 
-1. Fork the repository.
-2. Create a new branch.
-3. Commit your changes.
-4. Push the branch.
-5. Open a Pull Request.
+1. Fork
+2. Create a branch
+3. Commit changes
+4. Push
+5. Open Pull Request
 
 ---
 
-## 📄 License
+# 📄 License
 
-This project is licensed under the MIT License.
+MIT License
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
 **Santhosh M**
 
-GitHub: https://github.com/sanx-labs26
+B.Sc Data Science & Analytics
+
+GitHub:
+https://github.com/YOUR_USERNAME
 
 ---
 
-⭐ If you like this project, please consider giving it a **Star** on GitHub!
+⭐ **If you like this project, don't forget to Star the repository!**
 
