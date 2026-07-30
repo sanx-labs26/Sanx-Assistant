@@ -3,6 +3,12 @@ from datetime import datetime
 
 DB_NAME = "sanx.db"
 
+def init_db():
+    create_conversation_table()
+    create_preferences_table()
+    create_documents_table()
+    create_tasks_table()
+    
 
 def create_conversation_table():
     try:
@@ -47,6 +53,117 @@ def create_preferences_table():
 
     finally:
         conn.close()
+
+# ==========================
+# TASK MANAGER DATABASE
+# ==========================
+
+def create_tasks_table():
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS tasks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT,
+        due_date TEXT,
+        due_time TEXT,
+        status TEXT DEFAULT 'Pending',
+        created_at TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+def add_task(title, description="", due_date="", due_time=""):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT INTO tasks
+    (title, description, due_date, due_time, created_at)
+    VALUES (?, ?, ?, ?, ?)
+    """, (
+        title,
+        description,
+        due_date,
+        due_time,
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+def get_tasks():
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM tasks
+    ORDER BY id DESC
+    """)
+
+    tasks = cursor.fetchall()
+
+    conn.close()
+    return tasks
+
+
+def complete_task(task_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE tasks
+    SET status = 'Completed'
+    WHERE id = ?
+    """, (task_id,))
+
+    conn.commit()
+    conn.close()
+
+
+def delete_task(task_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    DELETE FROM tasks
+    WHERE id = ?
+    """, (task_id,))
+
+    conn.commit()
+    conn.close()
+
+def create_documents_table():
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
+
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS documents (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            document_type TEXT,
+            name TEXT,
+            document_number TEXT,
+            dob TEXT,
+            valid_from TEXT,
+            valid_to TEXT,
+            file_name TEXT
+        )
+        """)
+
+        conn.commit()
+
+    except Exception as e:
+        print(f"Database Error: {e}")
+
+    finally:
+        conn.close()        
 
 
 def save_preferences(username, voice):
