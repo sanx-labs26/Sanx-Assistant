@@ -124,6 +124,7 @@ def chat(user_input):
 
         save_conversation(original_input, response)
         return response
+    
 
     response = "Sorry, I didn't understand that."
     save_conversation(original_input, response)

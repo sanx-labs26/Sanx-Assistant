@@ -10,6 +10,8 @@ from database import (
     get_recent_conversations
 )
 
+from database import save_conversation
+
 create_conversation_table()
 
 save_conversation(

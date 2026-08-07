@@ -8,15 +8,29 @@ from task_manager import (
     finish_task,
     remove_task,
 )
-
 from reminder import (
     print_reminders,
 )
-
 from knowledge_base import (
     search_knowledge,
 )
+from system_tools import(
+     get_current_date,
+     get_current_datetime,
+     get_current_day,
+     get_current_time,
+     get_weather,
+)
+from desktop_control import open_application,close_application
 
+from datetime import datetime
+
+def router_log(message: str) -> None:
+    """
+    Prints router debug messages.
+    """
+    now = datetime.now().strftime("%H:%M:%S")
+    print(f"[{now}] [ROUTER] {message}")
 
 class AssistantRouter:
 
@@ -24,13 +38,15 @@ class AssistantRouter:
 
         command = command.lower().strip()
 
+        router_log(f"DEBUG COMMAND: [{command}]")
+
         # ------------------------
         # Study Mode
         # ------------------------
         if (
-            command.startswith("study ")
-            or command.startswith("learn ")
-            or command.startswith("teach me ")
+            command.startswith(("study ",
+            "learn ",
+            "teach me "))
         ):
 
             topic = (
@@ -54,9 +70,9 @@ class AssistantRouter:
         # Quiz Mode
         # ------------------------
         elif (
-            command.startswith("quiz ")
-            or command.startswith("start quiz ")
-            or command.startswith("test me ")
+            command.startswith("quiz ",
+            "start quiz ",
+            "test me ")
         ):
 
             subject = (
@@ -75,22 +91,24 @@ class AssistantRouter:
             )
 
             return f"""
-📘 Quiz
+        📘 Quiz
 
-Question:
-{quiz['question']}
+        Question:
+        {quiz['question']}
 
-Answer:
-{quiz['answer']}
-"""
+        Answer:
+        {quiz['answer']}
+        """
+
+        
 
         # ------------------------
         # Interview Mode
         # ------------------------
         elif (
-            command.startswith("interview ")
-            or command.startswith("mock interview ")
-            or command.startswith("practice interview ")
+            command.startswith("interview ",
+            "mock interview "
+            "practice interview ")
         ):
 
             category = (
@@ -200,7 +218,7 @@ Answer:
             if not results:
                 return "No knowledge found."
 
-            response = ""
+            response = "📚 Knowledge Search Results\n\n"
 
             for topic, content in results:
 
@@ -215,4 +233,81 @@ Answer:
         # ------------------------
         # Unknown Command
         # ------------------------
+
+        # ------------------------
+        # Time
+        # ------------------------
+
+        elif command in (
+        "time",
+        "current time",
+        "what is the time",
+        "tell me the time",
+        ):
+
+         return (
+          f"The current time is "
+          f"{get_current_time()}, Sanx."
+        )
+
+
+        # ------------------------
+        # Date
+        # ------------------------
+
+        elif command in (
+        "date",
+        "today date",
+        "today's date",
+        "current date",
+        ):
+
+          return (
+           f"Today's date is "
+           f"{get_current_date()}, Sanx."
+        )
+
+
+        # ------------------------
+        # Day
+        # ------------------------
+
+        elif command in (
+        "day",
+        "today",
+        "what day is today",
+        ):
+
+          return (
+            f"Today is "
+            f"{get_current_day()}, Sanx."
+        )
+
+
+        # ------------------------
+        # Date & Time
+        # ------------------------
+
+        elif command in (
+        "date and time",
+        "current date and time",
+        ):
+
+          return get_current_datetime()
+
+
+        # ------------------------
+        # Weather
+        # ------------------------
+
+        elif (
+        command == "weather",
+        "weather ",
+        "weather today" in command
+        ):
+
+          return get_weather()
+
+        
+        # Command not handled by the router.
         return None

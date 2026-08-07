@@ -5,6 +5,10 @@ from task_manager import (
     finish_task,
     remove_task
 )
+from commands import handle_task_command
+
+print (handle_task_command("show my task"))
+
 
 init_db()
 

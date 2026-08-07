@@ -3,6 +3,20 @@ from datetime import datetime
 
 DB_NAME = "sanx.db"
 
+def get_connection() -> sqlite3.Connection:
+    """
+    Creates and returns a SQLite database connection.
+    """
+    return sqlite3.connect(DB_NAME)
+
+def db_log(message: str) -> None:
+    """
+    Prints a timestamped database message.
+    """
+    now = datetime.now().strftime("%H:%M:%S")
+    print(f"[{now}] [DATABASE] {message}")
+
+
 def init_db():
     create_conversation_table()
     create_preferences_table()
@@ -12,7 +26,7 @@ def init_db():
 
 def create_conversation_table():
     try:
-        conn = sqlite3.connect(DB_NAME)
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -27,7 +41,7 @@ def create_conversation_table():
         conn.commit()
 
     except Exception as e:
-        print(f"Database Error: {e}")
+        db_log(f"Error: {e}")
 
     finally:
         conn.close()
@@ -35,7 +49,7 @@ def create_conversation_table():
 
 def create_preferences_table():
     try:
-        conn = sqlite3.connect(DB_NAME)
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -49,7 +63,7 @@ def create_preferences_table():
         conn.commit()
 
     except Exception as e:
-        print(f"Database Error: {e}")
+        db_log(f"Error: {e}")
 
     finally:
         conn.close()
@@ -59,89 +73,140 @@ def create_preferences_table():
 # ==========================
 
 def create_tasks_table():
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS tasks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        description TEXT,
-        due_date TEXT,
-        due_time TEXT,
-        status TEXT DEFAULT 'Pending',
-        created_at TEXT
-    )
-    """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            description TEXT,
+            due_date TEXT,
+            due_time TEXT,
+            status TEXT DEFAULT 'Pending',
+            created_at TEXT
+        )
+        """)
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+
+    except Exception as e:
+        db_log(f"Error: {e}")
+    
+    finally:
+        conn.close()
 
 
-def add_task(title, description="", due_date="", due_time=""):
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+def add_task(
+    title: str,
+    description: str = "",
+    due_date: str = "",
+    due_time: str = ""
+) -> bool:
 
-    cursor.execute("""
-    INSERT INTO tasks
-    (title, description, due_date, due_time, created_at)
-    VALUES (?, ?, ?, ?, ?)
-    """, (
-        title,
-        description,
-        due_date,
-        due_time,
-        datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    ))
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    conn.commit()
-    conn.close()
+        cursor.execute("""
+        INSERT INTO tasks
+        (title, description, due_date, due_time, created_at)
+        VALUES (?, ?, ?, ?, ?)
+        """, (
+            title,
+            description,
+            due_date,
+            due_time,
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        ))
+
+        conn.commit()
+        db_log(f"Task added: {title}")
+        return True
+
+    except Exception as e:
+        db_log(f"Error: {e}")
+        return False
+
+    finally:
+        conn.close()
 
 
 def get_tasks():
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    SELECT * FROM tasks
-    ORDER BY id DESC
-    """)
+        cursor.execute("""
+            SELECT * FROM tasks
+            ORDER BY id DESC
+            """)
 
-    tasks = cursor.fetchall()
+        tasks = cursor.fetchall()
 
-    conn.close()
+    except Exception as e:
+        db_log(f"Error: {e}")
+        
+    finally:
+        conn.close()
     return tasks
 
 
-def complete_task(task_id):
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+def complete_task(task_id: int) -> bool:
+    """
+    Marks a task as completed.
+    """
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    UPDATE tasks
-    SET status = 'Completed'
-    WHERE id = ?
-    """, (task_id,))
+        cursor.execute("""
+        UPDATE tasks
+        SET status = 'Completed'
+        WHERE id = ?
+        """, (task_id,))
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        db_log(f"Task completed: {task_id}")
+        return True
+
+    except Exception as e:
+        db_log(f"Error completing task: {e}")
+        return False
+
+    finally:
+        conn.close()
 
 
-def delete_task(task_id):
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
+def delete_task(task_id: int) -> bool:
+    """
+    Deletes a task from the database.
+    """
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    cursor.execute("""
-    DELETE FROM tasks
-    WHERE id = ?
-    """, (task_id,))
+        cursor.execute("""
+        DELETE FROM tasks
+        WHERE id = ?
+        """, (task_id,))
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        db_log(f"Task deleted: {task_id}")
+        return True
+
+    except Exception as e:
+        db_log(f"Error deleting task: {e}")
+        return False
+
+    finally:
+        conn.close()
+
 
 def create_documents_table():
     try:
-        conn = sqlite3.connect(DB_NAME)
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -160,26 +225,42 @@ def create_documents_table():
         conn.commit()
 
     except Exception as e:
-        print(f"Database Error: {e}")
+        db_log(f"Error: {e}")
 
     finally:
         conn.close()        
 
 
-def save_preferences(username, voice):
+def save_preferences(username: str, voice: str) -> bool:
+    """
+    Saves or updates the user's preferences.
+    """
     try:
-        conn = sqlite3.connect(DB_NAME)
+        conn = get_connection()
         cursor = conn.cursor()
 
-        cursor.execute("""
-        INSERT INTO preferences (username, voice)
-        VALUES (?, ?)
-        """, (username, voice))
+        cursor.execute("SELECT id FROM preferences LIMIT 1")
+        existing = cursor.fetchone()
+
+        if existing:
+            cursor.execute("""
+            UPDATE preferences
+            SET username = ?, voice = ?
+            WHERE id = ?
+            """, (username, voice, existing[0]))
+        else:
+            cursor.execute("""
+            INSERT INTO preferences (username, voice)
+            VALUES (?, ?)
+            """, (username, voice))
 
         conn.commit()
+        db_log("Preferences saved.")
+        return True
 
     except Exception as e:
-        print(f"Database Error: {e}")
+        db_log(f"Error saving preferences: {e}")
+        return False
 
     finally:
         conn.close()
@@ -187,28 +268,36 @@ def save_preferences(username, voice):
 
 def get_preferences():
     try:
-        conn = sqlite3.connect(DB_NAME)
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute("""
         SELECT username, voice
         FROM preferences
+        OERDER BY id DESC
+        LIMIT 1
         """)
 
         result = cursor.fetchall()
         return result
 
     except Exception as e:
-        print(f"Database Error: {e}")
+        db_log(f"Error: {e}")
         return []
 
     finally:
         conn.close()
 
 
-def save_conversation(user_message, assistant_response):
+def save_conversation(
+    user_message: str,
+    assistant_response: str
+) -> bool:
+    """
+    Saves a conversation between the user and SanX Assistant.
+    """
     try:
-        conn = sqlite3.connect(DB_NAME)
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -222,9 +311,12 @@ def save_conversation(user_message, assistant_response):
         ))
 
         conn.commit()
+        db_log("Conversation saved.")
+        return True
 
     except Exception as e:
-        print(f"Database Error: {e}")
+        db_log(f"Error saving conversation: {e}")
+        return False
 
     finally:
         conn.close()
@@ -232,7 +324,7 @@ def save_conversation(user_message, assistant_response):
 
 def get_recent_conversations(limit=10):
     try:
-        conn = sqlite3.connect(DB_NAME)
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -248,7 +340,7 @@ def get_recent_conversations(limit=10):
         return data
 
     except Exception as e:
-        print(f"Database Error: {e}")
+        db_log(f"Error: {e}")
         return []
 
     finally:

@@ -20,14 +20,16 @@ def list_tasks():
     output = "\n📋 Your Tasks:\n"
 
     for task in tasks:
-        task_id, title, description, due_date, status = task
+        task_id, title, description, due_date, due_time, status, created_at = task
 
         output += (
             f"\nID: {task_id}\n"
             f"Title: {title}\n"
             f"Description: {description}\n"
             f"Due: {due_date}\n"
+            f"Due: {due_time}\n"
             f"Status: {status}\n"
+            f"Created_at: {created_at}\n"
             "------------------------"
         )
 
