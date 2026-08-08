@@ -141,7 +141,7 @@ SanX Assistant/
 
 1. Clone the repository
 
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone [YOUR_GITHUB_REPOSITORY_URL](https://github.com/sanx-labs26/Sanx-Assistant.git)
 cd SanX-Assistant
 
 2. Create a virtual environment
