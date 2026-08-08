@@ -44,9 +44,9 @@ class AssistantRouter:
         # Study Mode
         # ------------------------
         if (
-            command.startswith(("study ",
-            "learn ",
-            "teach me "))
+            command.startswith("quiz ")
+            or command.startswith("start quiz ")
+            or command.startswith("test me ")
         ):
 
             topic = (

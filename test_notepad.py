@@ -1,7 +1,9 @@
 import subprocess
 
-subprocess.Popen("notepad.exe")
 
-print("Done")
+def test_notepad_can_start():
+    process = subprocess.Popen("notepad.exe")
 
+    assert process.poll() is None
 
+    process.terminate()

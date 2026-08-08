@@ -1,9 +1,9 @@
-from database import get_recent_conversations
+from database import init_db, get_recent_conversations
 
-history = get_recent_conversations()
 
-for user, assistant, time in history:
-    print(f"User: {user}")
-    print(f"Sanx: {assistant}")
-    print(f"Time: {time}")
-    print("-" * 30)
+def test_recall_conversations():
+    init_db()
+
+    history = get_recent_conversations()
+
+    assert history is not None

@@ -1,9 +1,10 @@
 from quiz import get_quiz
 
-quiz = get_quiz("Python")
 
-print("Question:")
-print(quiz["question"])
+def test_python_quiz():
+    quiz = get_quiz("Python")
 
-print("\nAnswer:")
-print(quiz["answer"])
+    assert quiz is not None
+    assert isinstance(quiz, dict)
+    assert "question" in quiz
+    assert "answer" in quiz

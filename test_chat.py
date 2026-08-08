@@ -1,11 +1,9 @@
 from chat_engine import chat
 
-while True:
-    user = input("You: ")
 
-    if user.lower() == "exit":
-        break
+def test_chat_returns_response():
+    response = chat("Hello SanX")
 
-    reply = chat(user)
-    print("SanX:",reply)
-    
+    assert response is not None
+    assert isinstance(response, str)
+    assert response.strip() != ""

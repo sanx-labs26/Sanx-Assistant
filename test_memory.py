@@ -1,23 +1,18 @@
-from database import create_conversation_table
-
-create_conversation_table()
-
-print("Conversation table created!")
-
 from database import (
     create_conversation_table,
     save_conversation,
-    get_recent_conversations
+    get_recent_conversations,
 )
 
-from database import save_conversation
 
-create_conversation_table()
+def test_conversation_memory():
+    create_conversation_table()
 
-save_conversation(
-    "Hello",
-    "Hello, Sanx. How may I assist you today?"
-)
+    save_conversation(
+        "Hello",
+        "Hello, Sanx. How may I assist you today?"
+    )
 
-for row in get_recent_conversations():
-    print(row)
+    conversations = get_recent_conversations()
+
+    assert conversations is not None

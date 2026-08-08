@@ -1,5 +1,7 @@
 from database import init_db
 
-init_db()
 
-print("Database initialized successfully")
+def test_database_initialization():
+    result = init_db()
+
+    assert result is None or result is not False

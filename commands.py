@@ -44,9 +44,9 @@ def handle_task_command(command: str) -> str |None:
 
     # Show tasks
     elif (
-        "show tasks" in command
-        or "list tasks" in command
-        or "my tasks" in command
+        "show task" in command
+        or "list task" in command
+        or "my task" in command
     ):
         command_log("Showing all tasks")
 

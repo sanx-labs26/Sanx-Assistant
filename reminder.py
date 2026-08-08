@@ -14,7 +14,7 @@ def check_due_tasks():
     reminders = []
 
     for task in tasks:
-        task_id, title, description, due_date, status = task
+        task_id, title, description, due_date, due_time, status, created_at = task
 
         if (
             due_date
@@ -25,7 +25,8 @@ def check_due_tasks():
                 "id": task_id,
                 "title": title,
                 "description": description,
-                "due_date": due_date
+                "due_date": due_date,
+                "due_time": due_time
             })
 
     return reminders
@@ -36,7 +37,7 @@ def print_reminders():
 
     if not reminders:
         print("✅ No reminders for today.")
-        return
+        return "✅ No reminders for today."
 
     print("\n🔔 Today's Reminders:\n")
 
@@ -45,4 +46,7 @@ def print_reminders():
         print(f"Title   : {reminder['title']}")
         print(f"Details : {reminder['description']}")
         print(f"Due Date: {reminder['due_date']}")
+        print(f"Due Time: {reminder['due_time']}")
         print("-" * 35)
+
+    return reminders
