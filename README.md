@@ -128,7 +128,11 @@ SanX Assistant/
 ├── desktop_control.py
 ├── file_operations.py
 │
-├── tests/
+├── test_chat.py
+├── test_commands.py
+├── test_tasks.py
+├── test_quiz.py
+├── test_study.py
 │
 ├── .env.example
 ├── .gitignore
@@ -141,7 +145,7 @@ SanX Assistant/
 
 1. Clone the repository
 
-git clone [YOUR_GITHUB_REPOSITORY_URL](https://github.com/sanx-labs26/Sanx-Assistant.git)
+git clone https://github.com/sanx-labs26/Sanx-Assistant.git
 cd SanX-Assistant
 
 2. Create a virtual environment
